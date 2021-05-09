@@ -3,5 +3,5 @@
 ;; To add a comment in wat we use `;;`
 
 (;
-    For block comment `(; Comment goes here ;)`
+    This is a block comment 
 ;)
