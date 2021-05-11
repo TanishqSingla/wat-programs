@@ -12,8 +12,8 @@ let importObject = {
   },
 
   env: {
-    import_i32: 132,
-    import_f32: 123.0123456,
+    import_i32: 5_000_000_000,
+    import_f32: 123.0123456789,
     import_f64: 123.0123456789,
   },
 };
