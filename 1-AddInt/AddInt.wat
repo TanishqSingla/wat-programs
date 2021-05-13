@@ -1,9 +1,9 @@
 (module
     (func (export "AddInt")
-    (param $value_1 i32) (param $value_2 i32)
+    (param i32) (param i32)
        (result i32) 
-        local.get $value_1
-        local.get $value_2
+        local.get 0
+        local.get 1
 
         i32.add
     )
