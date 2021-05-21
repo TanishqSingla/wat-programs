@@ -9,9 +9,9 @@
     )
 
     (func $eq_2 (param $n i32) (result i32)
-        local.get
+        local.get $n
         i32.const 2
-        i32.eq    
+        i32.eq
     )
     
     (func $multiple_check (param $m i32) (param $n i32) (result i32)
@@ -57,6 +57,7 @@
                 end
 
                 (call $multiple_check (local.get $n) (local.get $i))
+
                 br_if $not_prime
                 br $prime_test_loop
             )
