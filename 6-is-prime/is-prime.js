@@ -1,0 +1,15 @@
+const fs = require("fs");
+const bytes = fs.readFileSync(__dirname + "/is-prime.wasm");
+
+(async () => {
+  const obj = await WebAssembly.instantiate(new Uint8Array(bytes));
+  if (!!obj.instance.exports.is_prime(value)) {
+    console.log(`
+        ${value} is prime!
+        `);
+  } else {
+    console.log(`
+            ${value} is NOT prime
+        `);
+  }
+})();
