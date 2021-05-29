@@ -13,10 +13,13 @@ let importedObject = {
 };
 
 (async () => {
-  const obj = WebAssembly.instantiate(new Uint8Array(bytes), importedObject);
+  const obj = await WebAssembly.instantiate(
+    new Uint8Array(bytes),
+    importedObject
+  );
 
   // destructive wasm_call and js_call from obj.instance.exports
-  ({ wasm_call, js_call } = obj.instantiate.exports);
+  ({ wasm_call, js_call } = obj.instance.exports);
 
   let start = Date.now();
   wasm_call();
