@@ -16,4 +16,52 @@
     
     (global $wasm_inc_ptr i32 (i32.const 2))
     (global $wasm_dec_ptr i32 (i32.const 3))
+
+    (func (export "js_table_test" ))
+        (call_indirect (type $returns_i32) (global.get $inc_ptr)
+        i32.const 4_000_000
+        i32.le_u
+        br_if $inc_cycle
+        )
+
+        (loop $dec_cycle
+            (call_indirect (type $returns_i32) (global.get $dec_ptr))
+            i32.const 4_000_000
+            i32.le_u
+
+            br_if $dec_cycle
+        )
+    )
+
+    (func (export "js" (func "js_import_test"))
+        (loop $inc_cycle
+            call $increment
+            i32.const 4_000_000
+            i32.le_u
+            br_if $inc_cycle 
+        )
+
+        (loop $dec_cycle
+            call $decrement
+            i32.const 4_000_000
+            i32.le_u
+            br_if $dec_cycle
+        )
+    )
+
+    (func (export "wasm_table_test")
+        (loop $inc_cycle
+            call $wasm_increment
+            i32.const 4_000_000
+            i32.le_u
+            br_if $inc_cycle 
+        )
+
+        (loop $dec_cycle
+            call $wasm_decrement
+            i32.const 4_000_000
+            i32.le_u
+            br_if $dec_cycle
+        )
+    )
 )
