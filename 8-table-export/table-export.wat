@@ -10,7 +10,7 @@
     (func $increment (export "increment") (result i32)
         (global.set $i (i32.add (global.get $i) (i32.const 1)))
 
-        global.set $i 
+        global.get $i 
     )
 
     (func $decrement (export "decrement") (result i32)
