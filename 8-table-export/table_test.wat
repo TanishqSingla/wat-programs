@@ -53,7 +53,7 @@
 
     (func (export "wasm_table_test")
         (loop $inc_cycle
-            call $wasm_increment
+            (call_indirect (type $returns_i32) (global.get $wasm_inc_ptr)) 
             i32.const 4_000_000
             i32.le_u
             br_if $inc_cycle 

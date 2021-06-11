@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const export_bytes = fs.readFileSync(__dirname + "/table_export.wasm");
+const export_bytes = fs.readFileSync(__dirname + "/table-export.wasm");
 const test_bytes = fs.readFileSync(__dirname + "/table_test.wasm");
 
 let i = 0;
@@ -53,12 +53,15 @@ const importObject = {
   console.log("js_table_test time=" + time);
 
   i = 0;
-  start = Date.now() - start;
+  start = Date.now();
+  js_import_test();
+  time = Date.now() - start;
   console.log("js_import_test time=" + time);
 
   i = 0;
   start = Date.now();
   wasm_table_test();
+  time = Date.now() - start;
   console.log("wasm_table_test time=" + time);
 
   i = 0;
