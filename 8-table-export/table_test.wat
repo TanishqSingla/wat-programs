@@ -1,5 +1,5 @@
 (module
-    (import "js" (table $tbl 4 anyfunc))
+    (import "js" "tbl" (table $tbl 4 anyfunc))
 
     (import "js" "increment" (func $increment (result i32)))
 
@@ -17,11 +17,13 @@
     (global $wasm_inc_ptr i32 (i32.const 2))
     (global $wasm_dec_ptr i32 (i32.const 3))
 
-    (func (export "js_table_test" ))
-        (call_indirect (type $returns_i32) (global.get $inc_ptr)
-        i32.const 4_000_000
-        i32.le_u
-        br_if $inc_cycle
+    (func (export "js_table_test" )
+        (loop $inc_cycle
+            (call_indirect (type $returns_i32) (global.get $inc_ptr))
+            i32.const 4_000_000
+            i32.le_u
+
+            br_if $inc_cycle 
         )
 
         (loop $dec_cycle
@@ -33,7 +35,7 @@
         )
     )
 
-    (func (export "js" (func "js_import_test"))
+    (func (export "js_import_test")
         (loop $inc_cycle
             call $increment
             i32.const 4_000_000
@@ -66,7 +68,7 @@
     )
 
     (func (export "wasm_import_test")
-        (loop $in_cycle
+        (loop $inc_cycle
             call $wasm_increment
             i32.const 4_000_000
             i32.le_u
