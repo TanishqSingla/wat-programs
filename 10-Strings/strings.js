@@ -3,9 +3,19 @@ const bytes = fs.readFileSync(__dirname + "/strings.wasm");
 
 let memory = new WebAssembly.Memory({ initial: 1 });
 
+const max_mem = 65535;
+
 let importObject = {
   env: {
     buffer: memory,
+
+    null_str: function (str_pos) {
+      let bytes = new Uint8Array(memory.buffer, str_pos, max_mem - str_pos);
+
+      let log_string = new TextDecoder("utf8").decode(bytes);
+      log_string = log_string.split("\0")[0];
+    },
+
     str_pos_len: function (str_pos, str_len) {
       const bytes = new Uint8Array(memory.buffer, str_pos, str_len);
 
