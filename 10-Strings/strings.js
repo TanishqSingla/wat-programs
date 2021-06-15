@@ -14,6 +14,7 @@ let importObject = {
 
       let log_string = new TextDecoder("utf8").decode(bytes);
       log_string = log_string.split("\0")[0];
+      console.log(log_string);
     },
 
     str_pos_len: function (str_pos, str_len) {
