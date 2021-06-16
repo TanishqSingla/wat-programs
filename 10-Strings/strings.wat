@@ -10,7 +10,7 @@
 
     ;; len prefix strings
     (data (i32.const 512) "\16length-prefixed string")
-    (data (i32.const 640) "1eanother length-prefixed string") 
+    (data (i32.const 640) "\1eanother length-prefixed string") 
 
     ;; 30 character long string
     (data (i32.const 256) "know the length of this string")
@@ -21,6 +21,9 @@
     (func (export "main")
         (call $null_str (i32.const 0))
         (call $null_str (i32.const 128)) 
+
+        (call $len_prefix (i32.const 512))
+        (call $len_prefix (i32.const 640))
 
         (call $str_pos_len (i32.const 256) (i32.const 30)) 
 
