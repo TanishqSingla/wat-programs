@@ -1,10 +1,16 @@
 (module
     (import "env" "str_pos_len" (func $str_pos_len (param i32 i32)))
     (import "env" "null_str" (func $null_str (param i32)))
+    ;; len prefix
+    (import "env" "len_prefix" (func $len_prefix (param i32)))
     (import "env" "buffer" (memory 1))
 
     (data (i32.const 0) "null-terminating string\00")
     (data (i32.const 128) "another null-terminating string\00")
+
+    ;; len prefix strings
+    (data (i32.const 512) "\16length-prefixed string")
+    (data (i32.const 640) "1eanother length-prefixed string") 
 
     ;; 30 character long string
     (data (i32.const 256) "know the length of this string")
