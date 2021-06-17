@@ -81,6 +81,48 @@
         ))
     )
 
+    (func $string_copy
+        (param $source i32) (param $dest i32) (param $len i32)
+        (local $start_source_byte i32)
+        (local $start_dest_byte   i32)
+        (local $singles           i32)
+        (local $len_less_singles  i32)
+
+        local.get $len
+        local.set $len_less_singles
+
+        local.get $len
+        i32.const 7
+        i32.and
+        local.tee $singles
+
+        if
+            local.get $len
+            local.get $singles
+            i32.sub
+            local.tee $len_less_singles
+           
+            local.get $source
+            i32.add
+
+            local.set $start_source_byte
+
+            local.get $len_less_singles
+            local.get $dest
+            i32.add
+            local.set $start_dest_byte
+
+            (call $byte_copy (local.get $start_source_byte) (local.get $start_dest_byte) (local.get $singles))
+        
+        end
+
+        local.get $len
+        i32.const 0xff_ff_ff_f8
+        i32.and
+        local.set $len
+        (call $byte_copy_i64 (local.get $source) (local.get $dest) (local.get $len))
+    )
+
     (func (export "main")
         (call $null_str (i32.const 0))
         (call $null_str (i32.const 128)) 
@@ -89,7 +131,11 @@
         (call $len_prefix (i32.const 640))
 
         (call $str_pos_len (i32.const 256) (i32.const 30)) 
+        (call $str_pos_len (i32.const 384) (i32.const 35))
 
-        (call $str_pos_len (i32.const 384) (i32.const 35)) 
+        (call $string_copy (i32.const 256) (i32.const 384) (i32.const 30))
+
+        (call $str_pos_len (i32.const 384) (i32.const 35))
+        (call $str_pos_len (i32.const 384) (i32.const 30))
     )    
 )
