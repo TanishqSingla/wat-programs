@@ -18,6 +18,33 @@
     ;; 35 character long string
     (data (i32.const 384) "Also know the length of this string")
 
+    (func $byte_copy
+        (param $source i32) (param $dest i32) (param $len i32)
+        (local $last_source_byte i32)
+
+        local.get $source
+        local.get $len
+        i32.add
+
+        local.set $last_source_byte
+
+        (loop $copy_loop (block $break
+            local.get $dest
+            (i32.load8_u (local.get $souce))
+            i32.store8
+
+            local.get $dest
+            i32.const 1
+            i32.add
+            local.set $source
+
+            local.get $last_source_byte
+            i32.eq
+            br_if $break
+            br $copy_loop
+        ))
+    )
+
     (func (export "main")
         (call $null_str (i32.const 0))
         (call $null_str (i32.const 128)) 
