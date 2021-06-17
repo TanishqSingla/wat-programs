@@ -30,16 +30,22 @@
 
         (loop $copy_loop (block $break
             local.get $dest
-            (i32.load8_u (local.get $souce))
+            (i32.load8_u (local.get $source))
             i32.store8
 
             local.get $dest
             i32.const 1
             i32.add
-            local.set $source
+            local.set $dest
+
+            local.get $source
+            i32.const 1
+            i32.add
+            local.tee $source
 
             local.get $last_source_byte
             i32.eq
+
             br_if $break
             br $copy_loop
         ))
