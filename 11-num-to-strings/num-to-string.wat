@@ -24,7 +24,7 @@
         i32.const 8
         local.set $loops_remaining
 
-        (loop $bin_loop (br $outer_break
+        (loop $bin_loop (block $outer_break
             local.get $index
             i32.eqz
             br_if $outer_break
@@ -32,7 +32,7 @@
             i32.const 4
             local.set $nibble_bits
 
-            (loop $nibble_loop (br $nibble_break
+            (loop $nibble_loop (block $nibble_break
                 local.get $index
                 i32.const 1
                 i32.sub
@@ -210,5 +210,8 @@
         (call $set_hex_string (local.get $num) (global.get $hex_string_len))
 
         (call $print_string (i32.const 384) (global.get $hex_string_len))
+
+        (call $set_bin_string (local.get $num) (global.get $bin_string_len))
+        (call $print_string (i32.const 512) (global.get $bin_string_len))
     )
 )
