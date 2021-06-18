@@ -138,5 +138,9 @@
         (call $set_dec_string (local.get $num) (global.get $dec_string_len))
 
         (call $print_string (i32.const 256) (global.get $dec_string_len)) 
+
+        (call $set_hex_string (local.get $num) (global.get $hex_string_len))
+
+        (call $print_string (i32.const 384) (global.get $hex_string_len))
     )
 )
