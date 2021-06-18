@@ -7,17 +7,88 @@
     (data (i32.const 256) "               0")
     (global $dec_string_len i32 (i32.const 16))
 
+    (global $hex_string_len i32 (i32.const 16))
+    (data (i32.const 384) "             0x0")
+
+    (func $set_hex_string (param $num i32)
+        (local $index i32)
+        (local $digit_char i32)
+        (local $digit_val i32)
+        (local $x_pos i32)
+
+        global.get $hex_string_len
+        local.get $index
+
+        (loop $digit_loop (block $break
+            local.get $index
+            i32.eqz
+            br_if $break
+
+            local.get $num
+            i32.const 0xf
+            i32.and
+
+            local.set $digit_val
+            local.get $num
+            i32.eqz
+            
+            if
+                local.get $x_pos
+                i32.eqz
+                if
+                    local.get $index
+                    local.set $x_pos
+                else
+                    i32.const 32
+                    local.set $digit_char
+                end
+            else
+                (i32.load8_u offset=128 (local.get $digi_val))
+                local.set $digit_char
+            end
+
+            local.get $index
+            i32.const 1
+            i32.sub
+            local.tee $index
+            local.get $digit_char
+
+            i32.store8 offset=384
+
+            local.get $num
+            i32.const 4
+            i32.shr_u
+            local.set $num
+
+            br $digit_loop
+        ))
+
+        local.get $x_pos
+        i32.const 1
+        i32.sub
+
+        i32.const 120
+        i32.store8 offset=384
+
+        local.get $x_pos
+        i32.const 2
+        i32.sub
+
+        i32.const 48
+        i32.store8 offset=384
+    )
+
     (func $set_dec_string (param $num i32) (param $string_len i32)
         (local $index i32)
         (local $digit_char i32)
         (local $digit_val i32)
 
         local.get $string_len
-        local.set $index 
+        local.set $index
 
         local.get $num
         i32.eqz             ;; is equal to zero
-        if
+        if                      ;; if the number is 0 remove the spaces
             local.get $index
             i32.const 1
             i32.sub
