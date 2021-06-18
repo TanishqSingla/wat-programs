@@ -55,7 +55,7 @@
                 local.get $num
                 i32.const 1
                 i32.shr_u
-                local.set $index
+                local.set $num
 
                 local.get $nibble_bits
                 i32.const 1
