@@ -62,4 +62,10 @@
             br $digit_loop
         ))
     )
+
+    (func (export "to_string") (param $num i32)
+        (call $set_dec_string (local.get $num) (global.get $dec_string_len))
+
+        (call $print_string (i32.const 256) (global.get $dec_string_len)) 
+    )
 )
