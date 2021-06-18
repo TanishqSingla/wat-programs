@@ -89,18 +89,18 @@
         (local $len_less_singles  i32)
 
         local.get $len
-        local.set $len_less_singles
+        local.set $len_less_singles     ;; value without singles
 
         local.get $len
-        i32.const 7
+        i32.const 7         ;; 7 is 0111 in binary, representing last 3 bits
         i32.and
-        local.tee $singles
+        local.tee $singles  ;; set singles to last 3 bits
 
         if
             local.get $len
             local.get $singles
             i32.sub
-            local.tee $len_less_singles
+            local.tee $len_less_singles     ;; $len_less_singles = $len - $singles
            
             local.get $source
             i32.add
@@ -117,7 +117,7 @@
         end
 
         local.get $len
-        i32.const 0xff_ff_ff_f8
+        i32.const 0xff_ff_ff_f8     ;; all bits are 1 except the last 3 that are 0
         i32.and
         local.set $len
         (call $byte_copy_i64 (local.get $source) (local.get $dest) (local.get $len))
