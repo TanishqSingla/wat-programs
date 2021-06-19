@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const bytes = fs.readFileSync(__dirnam + "/pointer.wasm");
+const bytes = fs.readFileSync(__dirname + "/pointer.wasm");
 const memory = new WebAssembly.Memory({ initial: 1, maximum: 4 });
 
 const importObject = {
