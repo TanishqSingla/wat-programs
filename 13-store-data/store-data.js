@@ -22,7 +22,7 @@ const importObject = {
 };
 
 (async () => {
-  let obj = WebAssembly.instantiate(new Uint8Array(bytes), importObject);
+  let obj = await WebAssembly.instantiate(new Uint8Array(bytes), importObject);
 
   for (let i = 0; i < data_i32_index + data_count + 4; i++) {
     let data = mem_i32[i];
