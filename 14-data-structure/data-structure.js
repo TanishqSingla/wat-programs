@@ -23,3 +23,28 @@ const x_offset_i32 = x_offset / 4;
 const y_offset_i32 = y_offset / 4;
 const radius_offset_i32 = radius_offset / 4;
 const collision_offset_i32 = collision_offset / 4;
+
+const importObject = {
+  env: {
+    mem: memory,
+    obj_base_addr,
+    obj_count,
+    obj_stride,
+    x_offset,
+    y_offset,
+    radius_offset,
+    collision_offset,
+  },
+};
+
+for (let i = 0; i < obj_count; i++) {
+  let index = obj_i32_stride * i + obj_i32_base_index;
+
+  let x = Math.floor(Math.random() * 100);
+  let y = Math.floor(Math.random() * 100);
+  let r = Math.floor(Math.random() * 10);
+
+  mem_i32[index + x_offset] = x;
+  mem_i32[index + y_offset] = y;
+  mem_i32[index + radius_offset] = r;
+}
