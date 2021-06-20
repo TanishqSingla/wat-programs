@@ -20,3 +20,17 @@ const importObject = {
     data_count: data_count,
   },
 };
+
+(async () => {
+  let obj = WebAssembly.instantiate(new Uint8Array(bytes), importObject);
+
+  for (let i = 0; i < data_i32_index + data_count + 4; i++) {
+    let data = mem_i32[i];
+
+    if (data !== 0) {
+      console.log(`data[${i}]=${data}`.red.bold);
+    } else {
+      console.log(`data[${i}]=${data}`);
+    }
+  }
+})();

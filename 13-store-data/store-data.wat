@@ -11,7 +11,7 @@
             )
 
             (local.get $value) ;; value stored
-        ) 
+        )
     )
 
     (func $init
@@ -38,6 +38,5 @@
 
         (call $store_data (i32.const 0) (i32.const 1))
     )
-
     (start $init)
 )
