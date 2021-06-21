@@ -48,3 +48,28 @@ for (let i = 0; i < obj_count; i++) {
   mem_i32[index + y_offset] = y;
   mem_i32[index + radius_offset] = r;
 }
+
+(async () => {
+  let obj = await WebAssembly.instantiate(new Uint8Array(bytes), importObject);
+
+  for (let i = 0; i < obj_count; i++) {
+    let index = obj_i32_stride + i + obj_i32_base_index;
+
+    let x = mem_i32[index + x_offset_i32].toString().padStart(2, " ");
+    let y = mem_i32[index + y_offset_i32].toString().padStart(2, " ");
+    let r = mem_i32[index + radius_offset_i32].toString().padStart(2, " ");
+
+    let i_str = i.toString().padStart(2, "0");
+    let c = !mem_i32[index + collision_offset_i32];
+
+    if (c) {
+      console.log(
+        `obj[${i_str}] x = ${x} y = ${y} r = ${r} collision=${c}`.red.bold
+      );
+    } else {
+      console.log(
+        `obj[${i_str}] x = ${x} y = ${y} r = ${r} collision=${c}`.green
+      );
+    }
+  }
+})();
