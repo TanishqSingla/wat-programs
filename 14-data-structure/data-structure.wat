@@ -48,4 +48,28 @@
 
         i32.gt_u
     )
+
+    (func $get_attr (param $obj_base i32) (param $attr_offset i32)
+        (result i32)
+        local.get $obj_base
+        local.get $attr_offset
+        i32.add
+        i32.load ;; load and return the address 
+    )
+
+    (func $set_collision
+        (param $obj_base_1 i32) (param $obj_base_2 i32)
+
+        local.get $obj_base_1
+        global.get $collision_offset
+        i32.add
+        i32.const 1
+        i32.store
+
+        local.get $obj_base_2
+        global.get $collision_offset
+        i32.add
+        i32.const 1
+        i32.store
+    )
 )
