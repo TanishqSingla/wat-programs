@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "colors": "^1.4.0"
+  },
+  "devDependencies": {
+    "connect": "^3.7.0",
+    "server-static": "^2.0.5"
   }
 }
