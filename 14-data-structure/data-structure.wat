@@ -99,11 +99,11 @@
                     local.set $xi
 
                     ;; load $i_obj + $y_offset and store in $yi
-                    (call $get_attr (local.tee $i_obj) (global.get $y_offset))
+                    (call $get_attr (local.get $i_obj) (global.get $y_offset))
                     local.set $yi
 
                     ;; load $i_obj + $y_offset and store in $ri
-                    (call $get_attr (local.tee $i_obj) (global.get $radius_offset))
+                    (call $get_attr (local.get $i_obj) (global.get $radius_offset))
                     local.set $ri
 
                     ;; $j_obj = $obj_base_addr + $j * $obj_stride
@@ -116,11 +116,11 @@
                     local.set $xj
 
                     ;; load $j_obj + $y_offset and store in $yj
-                    (call $get_attr (local.tee $j_obj) (global.get $y_offset))
+                    (call $get_attr (local.get $j_obj) (global.get $y_offset))
                     local.set $yj
 
                     ;; laod $j_obj + $y_offset and store in $rj
-                    (call $get_attr (local.tee $j_obj) (global.get $radius_offset))
+                    (call $get_attr (local.get $j_obj) (global.get $radius_offset))
                     local.set $rj
 
                     (call $collision_check
