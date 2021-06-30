@@ -83,67 +83,71 @@
         (local $xj i32) (local $yj i32) (local $rj i32)
 
         (loop $outer_loop
-            (local.set $j (i32.const 0)) ;; $j = 0
+            (local.set $j (i32.const 0)) ;; $j = 0 
 
             (loop $inner_loop
                 (block $inner_continue
-                    ;; if i == j; continue 
                     (br_if $inner_continue (i32.eq (local.get $i) (local.get $j)))
 
-                   ;; $i_obj = $obj_base_addr + $i * $obj_stride
-                   (i32.add (global.get $obj_base_addr)
-                        (i32.mul (local.get $i) (global.get $obj_stride)) 
-                   )
+                    ;; $i_obj = $obj_base_addr + $i * $obj_stride
+                    (i32.add (global.get $obj_base_addr)
+                        (i32.mul (local.get $i) (global.get $obj_stride))
+                    )
 
-                   ;; load $i_obj + $x_offset and store in $xi
-                   (call $get_attr (local.get $i_obj) (global.get $x_offset))
-                   local.set $xi
+                    ;; load $i_obj + $x_offset and store in $xi
+                    (call $get_attr (local.tee $i_obj) (global.get $x_offset))
+                    local.set $xi
 
-                   ;; load $i_obj + $y_offset and store in $yi
-                   (call $get_attr (local.get $i_obj) (global.get $y_offset))
-                   local.set $yi
+                    ;; load $i_obj + $y_offset and store in $yi
+                    (call $get_attr (local.tee $i_obj) (global.get $y_offset))
+                    local.set $yi
 
-                   ;; load $i_obj + radius_offset and store in $ri
-                   (call $get_attr (local.get $i_obj) (global.get $radius_offset)) 
-                   local.set $ri
+                    ;; load $i_obj + $y_offset and store in $ri
+                    (call $get_attr (local.tee $i_obj) (global.get $radius_offset))
+                    local.set $ri
 
-                   ;; $j_obj = $obj_base_addr + $i * $obj_stride
-                   (i32.add (global.get $obj_base_addr)
+                    ;; $j_obj = $obj_base_addr + $j * $obj_stride
+                    (i32.add (global.get $obj_base_addr)
                         (i32.mul (local.get $j) (global.get $obj_stride))
-                   )
+                    )
 
-                   ;; load $j_obj + $x_offset and store in $xj
-                   (call $get_attr (local.get $j_obj) (global.get $x_offset))
-                   local.set $xj
+                    ;; load $j_obj + $x_offset and store in $xj
+                    (call $get_attr (local.tee $j_obj) (global.get $x_offset))
+                    local.set $xj
 
-                   ;; load $j_obj + $y_offset and store in $yj
-                   (call $get_attr (local.get $j_obj) (global.get $y_offset)) 
-                   local.set $yj
+                    ;; load $j_obj + $y_offset and store in $yj
+                    (call $get_attr (local.tee $j_obj) (global.get $y_offset))
+                    local.set $yj
 
-                   ;; local $j_obj + $radius_offset and store in $rj
-                   (call $get_attr (local.get $j_obj) (global.get $radius_offset))
-                   local.set $rj
+                    ;; laod $j_obj + $y_offset and store in $rj
+                    (call $get_attr (local.tee $j_obj) (global.get $radius_offset))
+                    local.set $rj
 
-                   ;; check for collision between ith and jth objects
-                   (call $collision_check
+                    (call $collision_check
                         (local.get $xi) (local.get $yi) (local.get $ri)
-                        (local.get $xj) (local.get $yj) (local.get $rj))
+                        (local.get $xi) (local.get $yj) (local.get $rj)
+                    )
 
-                    if ;; if there is a collision
+                    if
                         (call $set_collision (local.get $i_obj) (local.get $j_obj))
                     end
-                   )
+                )
 
-                   (i32.add (local.get $j) (i32.const 1)) ;; j++
-
-                   ;; if $j < $obj_count loop
-                   (br_if $inner_loop
+                (i32.add (local.get $j) (i32.const 1)) ;; $j++
+                
+                ;; If $j < $obj_count loop
+                (br_if $inner_loop
                     (i32.lt_u (local.tee $j) (global.get $obj_count)) 
-                   )
+                )
             )
+
+            (i32.add (local.get $i) (i32.const 1)) ;; $i++
+
+            ;; if $i < $obj_count loop
             (br_if $outer_loop
                 (i32.lt_u (local.tee $i) (global.get $obj_count)) 
             )
         ) 
     )
+    (start $init)
 )
