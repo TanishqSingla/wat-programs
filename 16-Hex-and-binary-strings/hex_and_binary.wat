@@ -1,0 +1,26 @@
+(module
+    (import "env" "buffer" (memory 1))
+
+    (global $digit_ptr i32 (i32.const 128))
+    (data (i32.const 128) "0123456789ABCDEF")
+
+    (global $dec_string_ptr i32 (i32.const 256))
+    (global $dec_string_ptr_len i32 (i32.const 16))
+    (data (i32.const 256) "               0")
+
+    (global $hex_string_ptr i32 (i32.const 384))
+    (global $hex_string_ptr i32 (i32.const 16))
+    (data (i32.const 384) "               0x0")
+
+    (global $bin_string_ptr i32 (i32.const 512))
+    (global $bin_string_ptr i32 (i32.const 40))
+    (data (i32.const 512) "0000 0000 0000 0000 0000 0000 0000 0000")
+
+    (global $h1_open_ptr i32 (i32.const 640))
+    (global $h1_open_len i32 (i32.const 4))
+    (data (i32.const 640) "<h1>")
+
+    (global $h1_close_ptr i32 (i32.const 656))
+    (global $h1_open_len i32 (i32.const 5))
+    (data (i32.const 656) "</h1>")
+)

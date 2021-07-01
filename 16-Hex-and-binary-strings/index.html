@@ -49,5 +49,25 @@
       })();
     </script>
   </head>
-  <body></body>
+  <body
+    onload="onPageLoad()"
+    style="font-family: 'Courier New', Courier, monospace"
+  >
+    <div id="output">
+      <h1>0</h1>
+      <h4>0x0</h4>
+      <h4>0000 0000 0000 0000 0000 0000 0000 0000</h4>
+    </div>
+    <br />
+    <input type="number" id="val" value="0" /><br /><br />
+
+    <button
+      id="set_number"
+      type="button"
+      style="display: none"
+      onclick="setNumbers(document.getElementById('val').value)"
+    >
+      Set Numbers
+    </button>
+  </body>
 </html>
