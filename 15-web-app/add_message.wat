@@ -13,7 +13,7 @@
         local.set $sum
 
         (call $log_add_message
-            (local.get $a) (local.get $b) (local.get $num) 
+            (local.get $a) (local.get $b) (local.get $sum) 
         )
     )
 )
