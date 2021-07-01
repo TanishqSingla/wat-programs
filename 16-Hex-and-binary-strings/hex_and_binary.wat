@@ -23,4 +23,15 @@
     (global $h1_close_ptr i32 (i32.const 656))
     (global $h1_open_len i32 (i32.const 5))
     (data (i32.const 656) "</h1>")
+
+    (global $h4_open_ptr i32 (i32.const 672))
+    (global $h4_open_len i32 (i32.const 4))
+    (data (i32.const 672) "<h4>")
+
+    (global $h4_close_ptr i32 (i32.const 688))
+    (global $h4_close_len i32 (i32.const 5))
+    (data (i32.const 688) "</h4>")
+
+    (global $out_str_ptr i32 (i32.const 1024))
+    (global $out_str_len i32 (mut i32) (i32.const 0))
 )
