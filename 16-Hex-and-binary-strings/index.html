@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hex and Binary</title>
+    <script>
+      const memory = new WebAssembly.memory({ initial: 1 });
+      let output = null;
+
+      let setOutput = (number) => {
+        console.log("function not available");
+        return 0;
+      };
+
+      function setNumbers(number) {
+        if (output == null) {
+          return;
+        }
+
+        let len = setOutput(number);
+
+        let bytes = new Uint8Array(memory.buffer, 1024, len);
+
+        output.innerHTML = new TextDecoder("utf8").decode(bytes);
+      }
+
+      function onPageLoad() {
+        output = document.getElementById("output");
+        let message_num = 0;
+      }
+
+      let importObject = {
+        env: {
+          buffer: memory,
+        },
+      };
+
+      (async () => {
+        let obj = await WebAssembly.instantiateStreaming(
+          fetch("hex_and_binary.wasm"),
+          importObject
+        );
+
+        setOutput = obj.instance.exports.setOutput;
+        let btn = document.getElementById("set_numbers_button");
+        btn.style.display = "block";
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
