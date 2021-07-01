@@ -256,7 +256,34 @@
     )
 
     (func $byte_copy_i64
-        (param $source i32) (param $dest i32) (param $len i32) 
+        (param $source i32) (param $dest i32) (param $len i32)
+
+        (local $last_source_byte i32)
+
+        local.get $source
+        local.get $len
+        i32.add
+
+        local.set $last_source_byte
+
+        (loop $copy_loop (block $break
+        (i64.store (local.get $dest) (i64.load (local.get $source)))
+
+        local.get $dest
+        i32.const 8
+        i32.add
+        local.set $dest             ;; $dest = $dest + 8
+
+        local.get $source
+        i32.const 8
+        i32.add
+        local.tee $source           ;; $source = $source + 8
+
+        local.get $last_source_byte
+        i32.ge_u
+        br_if $break
+        br $copy_loop
+    ))
     )
 
     (func $string_copy
