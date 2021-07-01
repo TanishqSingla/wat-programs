@@ -34,4 +34,28 @@
 
     (global $out_str_ptr i32 (i32.const 1024))
     (global $out_str_len i32 (mut i32) (i32.const 0))
+
+    (func $set_bin_string (param $num i32) (param $string_len i32)
+
+    )
+
+    (func $set_hex_string (param $num i32) (param $string_len i32)
+    
+    )
+
+    (func $set_dec_string (param i32) (param $string_len i32)
+
+    )
+
+    (func $byte_copy
+        (param $source i32) (param $dest i32) (param $len i32)
+    )
+
+    (func $byte_copy_i64
+        (param $source i32) (param $dest i32) (param $len i32) 
+    )
+
+    (func $string_copy
+        (param $source i32) (param $dest i32) (param $len i32) 
+    )
 )
