@@ -1,11 +1,8 @@
-const express = require("express");
+const connect = require("connect");
+const serverStatic = require("serve-static");
 
-const app = express();
-
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-
-app.listen(8080, () => {
-  console.log("localhost:8080");
-});
+connect()
+  .use(serverStatic(__dirname + "/"))
+  .listen(8080, function () {
+    console.log("localhost:8080");
+  });
