@@ -36,7 +36,67 @@
     (global $out_str_len i32 (mut i32) (i32.const 0))
 
     (func $set_bin_string (param $num i32) (param $string_len i32)
+        (local $index i32)
+        (local $loops_remaining i32)
+        (local $nibble_bits i32)
 
+        global.get $bin_string_len
+        local.get $index
+
+        i32.const 8
+        local.set $loops_remaining
+
+        (loop $bin_loop (block $outer_break
+            local.get $index
+            i32.eqz
+            br_if $outer_break
+
+            i32.const 4
+            local.set $nibble_bits
+
+            (loop $nibble_loop (block $nibble_break
+                local.get $index
+                i32.const 1
+                i32.sub
+                local.get $index
+
+                local.get $num
+                i32.const 1
+                i32.and
+                if
+                    local.get $index
+                    i32.const 49
+                    i32.store8 offset=512
+                else
+                    local.get $index
+                    i32.const 48
+                    i32.store8 offset=512
+                end
+
+                local.get $num
+                i32.const 1
+                i32.shr_u
+                local.set $num
+
+                local.get $nibble_bits
+                i32.const 1
+                i32.sub 1
+                local.tee $nibble_bits
+                i32.eqz
+                br_if $nibble_break
+
+                br $nibble_loop 
+            ))
+
+            local.get $index
+            i32.const 1
+            i32.sub
+            local.tee $index
+            i32.const 32
+            i32.store8 offset=512
+
+            br $bin_loop 
+        ))
     )
 
     (func $set_hex_string (param $num i32) (param $string_len i32)
