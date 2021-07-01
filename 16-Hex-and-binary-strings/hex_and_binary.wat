@@ -283,10 +283,47 @@
         i32.ge_u
         br_if $break
         br $copy_loop
-    ))
+        ))
     )
 
     (func $string_copy
-        (param $source i32) (param $dest i32) (param $len i32) 
+        (local $start_source_byte i32)
+        (local $start_dest_byte   i32)
+        (local $singles           i32)
+        (local $len_less_singles  i32)
+
+        local.get $len
+        local.set $len_less_singles  ;; value without singles
+
+        local.get $len
+        i32.const 7                
+        i32.and
+        local.tee $singles          
+
+        if                           
+            local.get $len
+            local.get $singles
+            i32.sub
+            local.tee $len_less_singles 
+
+            local.get $source
+            i32.add
+   
+            local.set $start_source_byte
+
+            local.get $len_less_singles
+            local.get $dest
+            i32.add
+            local.set $start_dest_byte  
+
+            (call $byte_copy (local.get $start_source_byte)
+            (local.get $start_dest_byte)(local.get $singles))
+        end
+
+        local.get $len
+        i32.const 0xff_ff_ff_f8 ;; all bits are 1 except the last three which are 0
+        i32.and                 ;; set the last three bits of the length to 0
+        local.set $len
+        (call $byte_copy_i64 (local.get $source) (local.get $dest) (local.get $len))
     )
 )
