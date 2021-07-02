@@ -354,6 +354,10 @@
             (local.get $num) (global.get $hex_string_len) 
         )
 
+        (call $set_bin_string
+            (local.get $num) (global.get $bin_string_len) 
+        )
+
         i32.const 0
         global.set $out_str_len
 
