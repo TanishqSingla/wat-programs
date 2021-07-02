@@ -41,62 +41,62 @@
         (local $nibble_bits i32)
 
         global.get $bin_string_len
-        local.get $index
+        local.set $index
 
-        i32.const 8
-        local.set $loops_remaining
+        i32.const 8  ;; there are 8 nibbles in 32 bits (32/4 = 8)
+        local.set $loops_remaining  ;; outer loop separates nibbles
 
-        (loop $bin_loop (block $outer_break
-            local.get $index
+        (loop $bin_loop (block $outer_break  ;; outer loop for spaces
+            local.get $index  
             i32.eqz
-            br_if $outer_break
+            br_if $outer_break        ;; stop looping when $index is 0
 
             i32.const 4
-            local.set $nibble_bits
+            local.set $nibble_bits    ;; 4 bits in each nibble
 
-            (loop $nibble_loop (block $nibble_break
-                local.get $index
+            (loop $nibble_loop (block $nibble_break ;; inner loop for digits
+                local.get $index  
                 i32.const 1
                 i32.sub
-                local.get $index
+                local.set $index        ;; decrement $index
 
                 local.get $num
                 i32.const 1
-                i32.and
-                if
+                i32.and   ;; i32.and 1 results in 1 if last bit is 1 else 0
+                if        ;; if the last bit is a 1
                     local.get $index
-                    i32.const 49
-                    i32.store8 offset=512
-                else
+                    i32.const 49           ;; ascii '1' is 49
+                    i32.store8 offset=512  ;; store '1' at 512 + $index
+                else                     ;; else executes if last bit was 0
                     local.get $index
-                    i32.const 48
-                    i32.store8 offset=512
+                    i32.const 48           ;; ascii '0' is 48
+                    i32.store8 offset=512  ;; store '0' at 512 + $index
                 end
 
                 local.get $num
                 i32.const 1
-                i32.shr_u
-                local.set $num
+                i32.shr_u                ;; $num shifted right 1 bit
+                local.set $num           ;; shift off the last bit of $num
 
                 local.get $nibble_bits
                 i32.const 1
                 i32.sub
-                local.tee $nibble_bits
-                i32.eqz
-                br_if $nibble_break
+                local.tee $nibble_bits   ;; decrement $nibble_bits
+                i32.eqz                  ;; $nibble_bits == 0
+                br_if $nibble_break      ;; break when $nibble_bits == 0
 
-                br $nibble_loop 
-            ))
+                br $nibble_loop
+            )) ;; end $nibble_loop
 
-            local.get $index
-            i32.const 1
-            i32.sub
-            local.tee $index
-            i32.const 32
-            i32.store8 offset=512
+        local.get $index  
+        i32.const 1
+        i32.sub
+        local.tee $index           ;; decrement $index
+        i32.const 32               ;; ascii space
+        i32.store8 offset=512      ;; store ascii space at 512+$index
 
-            br $bin_loop 
-        ))
+        br $bin_loop
+        )) ;; end $bin_loop
     )
 
     (func $set_hex_string (param $num i32) (param $string_len i32)
