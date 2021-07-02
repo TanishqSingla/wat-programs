@@ -5,7 +5,7 @@
     (data (i32.const 128) "0123456789ABCDEF")
 
     (global $dec_string_ptr i32 (i32.const 256))
-    (global $dec_string_ptr_len i32 (i32.const 16))
+    (global $dec_string_len i32 (i32.const 16))
     (data (i32.const 256) "               0")
 
     (global $hex_string_ptr i32 (i32.const 384))

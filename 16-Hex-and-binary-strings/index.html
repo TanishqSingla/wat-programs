@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hex and Binary</title>
     <script>
-      const memory = new WebAssembly.memory({ initial: 1 });
+      const memory = new WebAssembly.Memory({ initial: 1 });
       let output = null;
 
       let setOutput = (number) => {
@@ -44,7 +44,7 @@
         );
 
         setOutput = obj.instance.exports.setOutput;
-        let btn = document.getElementById("set_numbers_button");
+        let btn = document.getElementById("set_number");
         btn.style.display = "block";
       })();
     </script>
