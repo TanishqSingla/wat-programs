@@ -344,7 +344,8 @@
         global.set $out_str_len
     )
 
-    (func (export "setOutput") (param $num i32) (result i32)
+    (func (export "setOutput") (param $num i32) (result i32)    
+        ;; creating decimal string from num value
         (call $set_dec_string
             (local.get $num) (global.get $dec_string_len) 
         )
@@ -374,6 +375,16 @@
         )
         (call $append_out
             (global.get $h4_close_ptr) (global.get $h4_close_len) 
+        )
+
+        (call $append_out
+            (global.get $h4_open_ptr) (global.get $h4_open_len)
+        )
+        (call $append_out
+            (global.get $bin_string_ptr) (global.get $bin_string_len)
+        )
+        (call $append_out
+            (global.get $h4_close_ptr) (global.get $h4_close_len)
         )
 
         global.get $out_str_len
