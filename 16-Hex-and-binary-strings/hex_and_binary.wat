@@ -327,4 +327,21 @@
         local.set $len
         (call $byte_copy_i64 (local.get $source) (local.get $dest) (local.get $len))
     )
+
+    (func (export "to_string") (param $num i32))
+        (call $set_dec_string
+            (local.get $num) (global.get $set_dec_string)
+        )
+
+        (call $print_string (i32.const 256) (global.get $dec_string_ptr))
+        (call $set_hex_string
+            (local.get $num) (global.get $hex_string_len) 
+        )
+        (call $print_string (i32.const 384) (global.get $hex_string_len))
+
+        (call $set_bin_string
+            (local.get $num) (global.get $bin_string_len)
+        )
+        (call $print_string (i32.const 512) (global.get $bin_string_len))
+    )
 )
