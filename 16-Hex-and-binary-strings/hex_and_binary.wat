@@ -327,21 +327,55 @@
         local.set $len
         (call $byte_copy_i64 (local.get $source) (local.get $dest) (local.get $len))
     )
-
-    (func (export "to_string") (param $num i32))
-        (call $set_dec_string
-            (local.get $num) (global.get $set_dec_string)
+    
+    (func $append_out (param $source i32) (param $len i32)
+        (call $string_copy
+            (local.get $source)
+            (i32.add
+                (global.get $out_str_ptr)
+                (global.get $out_str_len) 
+            )
+            (local.get $len)
         )
 
-        (call $print_string (i32.const 256) (global.get $dec_string_ptr))
+        global.get $out_str_len
+        local.get $len
+        i32.add
+        global.set $out_str_len
+    )
+
+    (func (export "setOutput") (param $num i32) (result i32)
+        (call $set_dec_string
+            (local.get $num) (global.get $dec_string_len) 
+        )
+
         (call $set_hex_string
             (local.get $num) (global.get $hex_string_len) 
         )
-        (call $print_string (i32.const 384) (global.get $hex_string_len))
 
-        (call $set_bin_string
-            (local.get $num) (global.get $bin_string_len)
+        i32.const 0
+        global.set $out_str_len
+
+        (call $append_out
+            (global.get $h1_open_ptr) (global.get $h1_open_len)
         )
-        (call $print_string (i32.const 512) (global.get $bin_string_len))
+        (call $append_out
+            (global.get $dec_string_ptr) (global.get $dec_string_len)
+        )
+        (call $append_out
+            (global.get $h1_close_ptr) (global.get $h1_close_len) 
+        )
+
+        (call $append_out
+            (global.get $h4_open_ptr) (global.get $h4_open_len) 
+        )
+        (call $append_out
+            (global.get $hex_string_ptr) (global.get $hex_string_len)
+        )
+        (call $append_out
+            (global.get $h4_close_ptr) (global.get $h4_close_len) 
+        )
+
+        global.get $out_str_len
     )
 )
