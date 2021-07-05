@@ -73,3 +73,21 @@ for (let i = 0; i < obj_cnt * stride_i32; i += stride_i32) {
 
   mem_i32[obj_start_32 + i + 3] = temp;
 }
+
+var animation_wasm;
+
+function animate() {
+  animation_wasm();
+  ctx.putImageData(image_data, 0, 0);
+  requestAnimationFrame(animate);
+}
+
+(async () => {
+  let obj = await WebAssembly.instantiateStreaming(
+    fetch("collide.wasm"),
+    importObject
+  );
+
+  animation_wasm = obj.instance.exports.main;
+  requestAnimationFrame(animate);
+})();
