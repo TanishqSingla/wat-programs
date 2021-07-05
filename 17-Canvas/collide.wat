@@ -83,4 +83,22 @@
 
         i32.store
     )
+
+    (func $draw_obj
+        (param $x i32)
+        (param $y i32)
+        (param $c i32)
+
+        (local $max_x   i32)
+        (local $max_y   i32)
+
+        (local $xi      i32)
+        (local $yi      i32)
+
+        local.get $x
+        local.tee $xi
+        global.get $obj_size
+        i32.add
+        local.set $max_x
+    )
 )
