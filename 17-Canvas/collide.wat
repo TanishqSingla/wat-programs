@@ -38,4 +38,49 @@
             br_if $pixel_loop
         ) 
     )
+
+    (func $abs
+        (param $value    i32)
+        (result         i32)
+
+        (i32.lt_s (local.get $value) (i32.const 0))
+        if
+            i32.const 0
+            local.get $value
+            i32.sub
+            return
+        end
+        ;; Note subtracting from 0 is faster in wasm
+    )
+
+    (func $set_pixel
+        (param $x i32)  ;; x coordinate
+        (param $y i32)  ;; y coordinate
+        (param $c i32)  ;; color value
+
+        ;; is $x > cnvs_size
+        (i32.ge_u (local.get $x) (local.get $cnvs_size))
+        if  ;; if x is outside canvas return
+            return
+        end
+
+        (i32.ge_u (local.get $y) (local.get $cnvs_size))
+        if
+            return
+        end
+
+        local.get $y
+        global.get $cnvs_size
+        i32.mul
+
+        local.get $x
+        i32.add         ;; x + y * cnvs_size, to get the number of pixels
+
+        i32.const 4
+        i32.mul         ;; multiply by 4 because each pixel is 4 bytes
+
+        local.get $c
+
+        i32.store
+    )
 )
