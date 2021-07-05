@@ -47,3 +47,29 @@ const image_data = new ImageData(
   cnvs_size,
   cnvs_size
 );
+
+const stride_i32 = stride_bytes / 4;
+
+for (let i = 0; i < obj_cnt * stride_i32; i += stride_i32) {
+  // value less than canvas_size
+  let temp = Math.floor(Math.random() * cnvs_size);
+
+  // set object x attribute to random value
+  mem_i32[obj_start_32 + i] = temp;
+
+  // random value less than canvas_size
+  temp = Math.floor(Math.random() * cnvs_size);
+
+  // set object y attribute to random value
+  mem_i32[obj_start_32 + i + 1] = temp;
+
+  // random value between -2 and 2
+  temp = Math.round(Math.random() * 4) - 2;
+
+  mem_i32[obj_start_32 + i + 2] = temp;
+
+  // random value between -2 and 2
+  temp = Math.round(Math.random() * 4) - 2;
+
+  mem_i32[obj_start_32 + i + 3] = temp;
+}
