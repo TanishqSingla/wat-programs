@@ -179,4 +179,25 @@
 
         i32.load
     )
+
+    (func $main
+        (local $i   i32)
+        (local $y   i32)
+        (local $outer_ptr   i32)
+        (local $inner_ptr   i32)
+
+        (local $x1  i32)    ;; outer loop object x coordinate
+        (local $x2  i32)    ;; inner loop object y coordinate
+        (local $y1  i32)    ;; outer loop object y coordinate
+        (local $y2  i32)    ;; inner loop object y coordinate
+
+        (local $xdist   i32)    ;; distance b/w 2 objects on x axis
+        (local $ydist   i32)    ;; distance b/w 2 objects on y axis
+
+        (local $i_hit   i32)    ;; i object hit boolean flag
+        (local $xv  i32)
+        (local $yv  i32)
+
+        (call $clear_canvas)    ;; set canvas to black
+    )
 )
