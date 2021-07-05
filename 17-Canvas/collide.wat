@@ -48,8 +48,10 @@
             i32.const 0
             local.get $value
             i32.sub
+
             return
         end
+        local.get $value
         ;; Note subtracting from 0 is faster in wasm
     )
 
@@ -59,12 +61,12 @@
         (param $c i32)  ;; color value
 
         ;; is $x > cnvs_size
-        (i32.ge_u (local.get $x) (local.get $cnvs_size))
+        (i32.ge_u (local.get $x) (global.get $cnvs_size))
         if  ;; if x is outside canvas return
             return
         end
 
-        (i32.ge_u (local.get $y) (local.get $cnvs_size))
+        (i32.ge_u (local.get $y) (global.get $cnvs_size))
         if
             return
         end
