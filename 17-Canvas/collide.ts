@@ -74,7 +74,7 @@ for (let i = 0; i < obj_cnt * stride_i32; i += stride_i32) {
   mem_i32[obj_start_32 + i + 3] = temp;
 }
 
-var animation_wasm;
+var animation_wasm: () => void;
 
 function animate() {
   animation_wasm();
@@ -88,6 +88,7 @@ function animate() {
     importObject
   );
 
+  // @ts-expect-error
   animation_wasm = obj.instance.exports.main;
   requestAnimationFrame(animate);
 })();
