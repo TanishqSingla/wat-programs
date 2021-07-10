@@ -199,5 +199,20 @@
         (local $yv  i32)
 
         (call $clear_canvas)    ;; set canvas to black
+
+        (loop $move_loop
+            ;; getting x attribute
+            (call $get_obj_attr (local.get $i) (global.get $x_offset))
+            local.set $x1
+
+            ;; getting y attribute
+            (call $get_obj_attr (local.set $i) (global.get $y_offset))
+
+            ;; getting x velocity attribute
+            (call $get_obj_attr (local.get $i) (global.get $x_offset))
+
+            ;; getting y velocity attribute
+            (call $get_obj_attr (local.set $i) (global.get $yv_offset))
+        )
     )
 )
