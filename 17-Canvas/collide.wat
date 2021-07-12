@@ -182,7 +182,7 @@
 
     (func $main
         (local $i   i32)
-        (local $y   i32)
+        (local $j   i32)
         (local $outer_ptr   i32)
         (local $inner_ptr   i32)
 
@@ -206,7 +206,7 @@
             local.set $x1
 
             ;; getting y attribute
-            (call $get_obj_attr (local.set $i) (global.get $y_offset))
+            (call $get_obj_attr (local.get $i) (global.get $y_offset))
             local.set $y1
 
             ;; getting x velocity attribute
@@ -214,7 +214,7 @@
             local.set $xv
 
             ;; getting y velocity attribute
-            (call $get_obj_attr (local.set $i) (global.get $yv_offset))
+            (call $get_obj_attr (local.get $i) (global.get $yv_offset))
             local.set $yv
 
             ;; add velocity to x and force it to stay in the canvas bounds
@@ -250,5 +250,83 @@
         i32.const 0
 
         local.set $i
+
+        (loop $outer_loop (block $outer_break
+            i32.const 0
+            local.tee $j    ;; setting j to 0
+
+            ;; $i_hit is a boolean value. 0 for false, 1 for true
+            local.set $i_hit    ;; setting i_hit to 0
+
+            ;; get x attribute for object $i
+            (call $get_obj_attr (local.get $i) (global.get $x_offset))
+            local.set $x1
+            
+            ;; get y attribute for object $i
+            (call $get_obj_attr (local.get $i) (global.get $y_offset))
+            local.set $y1
+
+            (loop $inner_loop (block $inner_break
+                local.get $i
+                local.get $j
+                i32.eq
+                if
+                    local.get $j
+                    i32.const 1
+                    i32.add
+                    local.set $j
+                end
+
+                local.get $j
+                global.get $obj_cnt
+                i32.ge_u
+                if
+                    br $inner_break
+                end
+
+                ;; get x attribute
+                (call $get_obj_attr (local.get $j) (global.get $x_offset))
+                local.set $x2   ;; set the x attribute for inner loop object
+
+                ;; distance between $x1 and $x2
+                (i32.sub (local.get $x1) (local.get $x2))
+                call $abs   ;; getting absolute value
+                local.tee $xdist    ;; xdist = the absolute value of ($x1 - $x2)
+
+                global.get $obj_size
+                i32.ge_u
+
+                if
+                    local.get $j
+                    i32.const 1
+                    i32.add
+                    local.set $j
+
+                    br $inner_loop  ;; increment $j and jump to beginning of inner_loop
+                end
+
+                ;; get y attribute
+                (call $get_obj_attr (local.get $j) (global.get $y_offset))
+                local.set $y2
+
+                (i32.sub (local.get $y1) (local.get $y2))
+                call $abs
+                local.tee $ydist
+
+                global.get $obj_size
+                i32.ge_u
+
+                if
+                    local.get $j
+                    i32.const 1
+                    i32.add
+                    local.set $j
+                    br $inner_loop
+                end
+
+                i32.const 1
+                local.set $i_hit
+            ))
+        ))
     )
 )
