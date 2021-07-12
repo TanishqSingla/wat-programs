@@ -201,47 +201,46 @@
         (call $clear_canvas)    ;; set canvas to black
 
         (loop $move_loop
-            ;; getting x attribute
+            ;; get x attribute
             (call $get_obj_attr (local.get $i) (global.get $x_offset))
             local.set $x1
-
-            ;; getting y attribute
+            ;; get y attribute
             (call $get_obj_attr (local.get $i) (global.get $y_offset))
             local.set $y1
-
-            ;; getting x velocity attribute
-            (call $get_obj_attr (local.get $i) (global.get $x_offset))
+            ;; get x velocity attribute
+            (call $get_obj_attr (local.get $i) (global.get $xv_offset))
             local.set $xv
-
-            ;; getting y velocity attribute
+            ;; get y velocity attribute
             (call $get_obj_attr (local.get $i) (global.get $yv_offset))
             local.set $yv
 
             ;; add velocity to x and force it to stay in the canvas bounds
             (i32.add (local.get $xv) (local.get $x1))
             i32.const 0x1ff ;; 511 in decimal
-            i32.and         ;; clear high order 23 bits
+            i32.and
             local.set $x1
-
+            ;; clear high-order 23 bits
             ;; add velocity to y and force it to stay in the canvas bounds
             (i32.add (local.get $yv) (local.get $y1))
             i32.const 0x1ff ;; 511 in decimal
-            i32.and         ;; clear high order 23 bits
-            local.set $y1
+            i32.and
+            ;; clear high-order 23 bits
 
+            local.set $y1
+            
             ;; set the x attribute in linear memory
             (call $set_obj_attr (local.get $i) (global.get $x_offset) (local.get $x1))
 
             ;; set the y attribute in linear memory
             (call $set_obj_attr (local.get $i) (global.get $y_offset) (local.get $y1))
-
+            
             local.get $i
             i32.const 1
             i32.add
-            local.tee $i    ;; i++
-
+            local.tee $i ;; increment $i
+            
             global.get $obj_cnt
-            i32.lt_u        ;; $i < obj_cnt
+            i32.lt_u
 
             if
                 br $move_loop
