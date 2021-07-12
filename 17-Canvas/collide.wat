@@ -327,6 +327,26 @@
                 i32.const 1
                 local.set $i_hit
             ))
+
+            local.get $i_hit
+            i32.const 0
+            i32.eq
+            if
+                (call $draw_obj (local.get $x1) (local.get $y1) (global.get $no_hit_color))
+            else
+                (call $draw_obj (local.get $x1) (local.get $y1) (global.get $hit_color))
+            end
+
+            local.get $i
+            i32.const 1
+            i32.add
+            local.tee $i
+
+            global.get $obj_cnt
+            i32.lt_u
+            if
+                br $outer_loop
+            end
         ))
     )
 )
