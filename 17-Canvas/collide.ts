@@ -20,8 +20,8 @@ const y_offset = 4; // y attribute
 const xv_offset = 8; // x velocity attribute
 const yv_offset = 12; // y velocity attribute
 
-const memory = new WebAssembly.Memory({ initial: 1 });
-const mem_18 = new Uint8Array(memory.buffer);
+const memory = new WebAssembly.Memory({ initial: 80 });
+const mem_i8 = new Uint8Array(memory.buffer);
 const mem_i32 = new Uint32Array(memory.buffer);
 
 const importObject = {

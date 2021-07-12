@@ -180,7 +180,7 @@
         i32.load
     )
 
-    (func $main
+    (func $main (export "main")
         (local $i   i32)
         (local $j   i32)
         (local $outer_ptr   i32)
