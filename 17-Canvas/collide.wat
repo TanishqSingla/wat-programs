@@ -270,49 +270,29 @@
                 local.get $i
                 local.get $j
                 i32.eq
+
                 if
                     local.get $j
                     i32.const 1
                     i32.add
                     local.set $j
                 end
-
                 local.get $j
                 global.get $obj_cnt
                 i32.ge_u
+
                 if
                     br $inner_break
                 end
 
-                ;; get x attribute
-                (call $get_obj_attr (local.get $j) (global.get $x_offset))
-                local.set $x2   ;; set the x attribute for inner loop object
-
-                ;; distance between $x1 and $x2
+                (call $get_obj_attr (local.get $j)(global.get $x_offset))
+                local.set $x2   ;; set the x attribute for inner loop
+            
                 (i32.sub (local.get $x1) (local.get $x2))
-                call $abs   ;; getting absolute value
-                local.tee $xdist    ;; xdist = the absolute value of ($x1 - $x2)
-
-                global.get $obj_size
-                i32.ge_u
-
-                if
-                    local.get $j
-                    i32.const 1
-                    i32.add
-                    local.set $j
-
-                    br $inner_loop  ;; increment $j and jump to beginning of inner_loop
-                end
-
-                ;; get y attribute
-                (call $get_obj_attr (local.get $j) (global.get $y_offset))
-                local.set $y2
-
-                (i32.sub (local.get $y1) (local.get $y2))
                 call $abs
-                local.tee $ydist
 
+                local.tee $xdist
+            
                 global.get $obj_size
                 i32.ge_u
 
@@ -323,7 +303,25 @@
                     local.set $j
                     br $inner_loop
                 end
+            
+                (call $get_obj_attr (local.get $j)(global.get $y_offset))
+                local.set $y2
+                (i32.sub (local.get $y1) (local.get $y2))
+                call $abs
 
+                local.tee $ydist
+                global.get $obj_size
+                i32.ge_u
+
+                if
+                    local.get $j
+                    i32.const 1
+                    i32.add
+                    local.set $j
+                
+                    br $inner_loop
+                end
+            
                 i32.const 1
                 local.set $i_hit
             ))
@@ -336,17 +334,16 @@
             else
                 (call $draw_obj (local.get $x1) (local.get $y1) (global.get $hit_color))
             end
-
+        
             local.get $i
             i32.const 1
             i32.add
-            local.tee $i
-
+            local.tee $i    ;; increment $i
             global.get $obj_cnt
             i32.lt_u
             if
-                br $outer_loop
+                br $outer_loop 
             end
-        ))
+        )) ;; end of outer loop
     )
 )

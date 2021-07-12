@@ -16,7 +16,7 @@ const y_offset = 4; // y attribute
 const xv_offset = 8; // x velocity attribute
 const yv_offset = 12; // y velocity attribute
 const memory = new WebAssembly.Memory({ initial: 80 });
-const mem_18 = new Uint8Array(memory.buffer);
+const mem_i8 = new Uint8Array(memory.buffer);
 const mem_i32 = new Uint32Array(memory.buffer);
 const importObject = {
     env: {
@@ -46,9 +46,11 @@ for (let i = 0; i < obj_cnt * stride_i32; i += stride_i32) {
     mem_i32[obj_start_32 + i + 1] = temp;
     // random value between -2 and 2
     temp = Math.round(Math.random() * 4) - 2;
+    // set x velocity to random value
     mem_i32[obj_start_32 + i + 2] = temp;
     // random value between -2 and 2
     temp = Math.round(Math.random() * 4) - 2;
+    // set y velocity to random value
     mem_i32[obj_start_32 + i + 3] = temp;
 }
 var animation_wasm;

@@ -66,11 +66,13 @@ for (let i = 0; i < obj_cnt * stride_i32; i += stride_i32) {
   // random value between -2 and 2
   temp = Math.round(Math.random() * 4) - 2;
 
+  // set x velocity to random value
   mem_i32[obj_start_32 + i + 2] = temp;
 
   // random value between -2 and 2
   temp = Math.round(Math.random() * 4) - 2;
 
+  // set y velocity to random value
   mem_i32[obj_start_32 + i + 3] = temp;
 }
 
