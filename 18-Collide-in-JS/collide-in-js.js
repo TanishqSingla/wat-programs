@@ -16,7 +16,7 @@ class Collider {
   constructor() {
     this.x = Math.random() * cnvs_size;
     this.y = Math.random() * cnvs_size;
-    this.xv = Math.round(Math.random * 4) - 2;
+    this.xv = Math.round(Math.random() * 4) - 2;
     this.yv = Math.round(Math.random() * 4) - 2;
     this.color = "green";
   }
@@ -58,8 +58,9 @@ let animate_count = 0;
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < collider_array.length; i++) {}
-  collider_array[i].move();
+  for (let i = 0; i < collider_array.length; i++) {
+    collider_array[i].move();
+  }
   // loop and render
   for (i = 0; i < collider_array.length; i++) {
     for (let j = 0; j < collider_array.length; j++) {
