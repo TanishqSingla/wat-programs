@@ -1,5 +1,5 @@
 (module
-    (import "js" "log_f64" (func $log_f64 (param i32 f64) )))
+    (import "js" "log_f64" (func $log_f64 (param i32 f64)))
 
     (func $distance (export "distance")
         (param $x1 f64) (param $y1 f64) (param $x2 f64) (param $y2 f64)
