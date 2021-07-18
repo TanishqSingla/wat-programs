@@ -24,7 +24,7 @@
       };
 
       (async () => {
-        let obj = await WebAssembly.instantiate(
+        let obj = await WebAssembly.instantiateStreaming(
           fetch("log.wasm"),
           importObject
         );

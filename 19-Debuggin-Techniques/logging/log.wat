@@ -18,7 +18,7 @@
 
         local.get $y1
         local.get $y2
-        f64.sub
+        f64.add
         local.tee $y_dist
 
         local.get $y_dist   ;; y_dist ^ 2
