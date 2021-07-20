@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+  </head>
+  <body>
+    x1: <input type="number" id="x1" value="0" /> y1:
+    <input type="number" id="y1" value="0" /> x2:
+    <input type="number" id="x2" value="0" /> y2:
+    <input type="number" id="y2" value="0" />
+    <br /><br />
+    DISTANCE: <span id="dist_out">??</span>
+    <script>
+      var distance = null;
+      let importObject = {
+        js: {
+          log_f64: function message(message_index, value) {
+            console.log(`message #${message_index}\nvalue=${value}`);
+          },
+        },
+      };
+
+      (async () => {
+        let obj = await WebAssembly.instantiateStreaming(
+          fetch("log.wasm"),
+          importObject
+        );
+
+        distance = obj.instance.exports.distance;
+      })();
+
+      function set_distance() {
+        let dist_out = document.getElementById("dist_out");
+        let x1 = document.getElementById("x1");
+        let y1 = document.getElementById("y1");
+        let x2 = document.getElementById("x2");
+        let y2 = document.getElementById("y2");
+
+        let dist = distance(x1.value, y1.value, x2.value, y2.value);
+        dist_out.innerHTML = dist;
+      }
+    </script>
+
+    <br /><br />
+    <button onmousedown="set_distance()">Find Distance</button>
+  </body>
+</html>
